@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kairos-crypto"
+version = "0.1.0"
+description = "Kairos Crypto —— 自研轻量加密货币量化库（交易所无关抽象 + 纸面交易）"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "Bruce848647703" }]
+keywords = ["quant", "crypto", "paper-trading", "exchange-abstract", "grid", "dca", "momentum"]
+dependencies = [
+    "numpy>=1.21",
+    "pandas>=1.3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[tool.setuptools]
+packages = ["kairos_crypto"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
