@@ -132,6 +132,34 @@ class MyExchangeAdapter(Exchange):
 
 完整可运行示例见 [`examples/demo.py`](examples/demo.py)。
 
+## 历史回放（真实数据演示）
+
+> ⚠️ **纯模拟 / 无真实下单；加密实时源在当前环境不可达。**
+> binance 等真实加密货币交易所接口在本运行环境被网络阻断，且本仓库铁律禁止任何
+> 真实联网抓取。因此 `kairos_crypto/realdata.py` + `examples/replay_real.py` 改用
+> **真实 A 股/ETF 历史日线 OHLCV**（本地只读 CSV，后复权 hfq）作为「通用价格序列」，
+> 回放驱动纸面交易引擎完成演示。用户可自行准备**真实加密历史 K 线 CSV**（或继承
+> `Exchange` 实现实时适配器）喂给 `load_candles()`，引擎与策略代码一行都不用改。
+
+```bash
+# 默认真实数据：黄金 ETF sh518880（来自 kairos-data 项目，只读）
+python examples/replay_real.py --csv /path/to/kairos-data/data/etf/sh518880.csv
+python examples/replay_real.py --csv <任意OHLCV.csv> --strategy momentum   # 只跑一个策略
+```
+
+- `load_candles(csv_path, symbol=None)`：真实 OHLCV CSV（`date,open,high,low,close,volume`，
+  兼容常见列名别名与 epoch 时间戳列）→ **升序** `Candle` 列表；自动丢弃 NaN/无效行、
+  去重日期，并对不满足 `low ≤ open/close ≤ high` 的行做最小修复。
+  `symbol` 缺省由文件名推导（如 `SH518880/CNY`，加密数据可传 `quote="USDT"`）。
+- `replayer_from_csv()` 直接产出 `Replayer`；`estimate_periods_per_year()` 按真实时间
+  跨度折算年化期数（A 股日线 ≈ 243，加密 24/7 小时线自动 ≈ 8760）。
+- 脚本对每个策略（momentum/grid/dca）输出期末净值、总收益、夏普、最大回撤、成交笔数、
+  手续费，并做**会计自洽校验**（净盈亏 = 毛盈亏 − 手续费、期末净值 = 现金 + 持仓市值等），
+  结果写入 `research/real_replay/`（REPORT.md + metrics.json + equity.csv）。
+- **数据声明**：演示数据只读引用 `kairos-data` 项目 `data/etf/`（真实 ETF 日线后复权，
+  来源为腾讯公开行情接口，由其原创代码抓取；仅供研究/学习/演示，数据不保证准确完整，
+  结果不构成投资建议）。本仓库对数据只读、不抓取、不联网。
+
 ## API 概览
 
 | 模块 | 关键对象 | 说明 |
@@ -139,6 +167,7 @@ class MyExchangeAdapter(Exchange):
 | `types` | `Candle` `Ticker` `Side` `OrderType` `OrderStatus` `Order` `Trade` `Balance` `SpotPosition` `parse_symbol` | 交易所无关的数据类型与会计口径 |
 | `exchange` | `Exchange`（抽象）`PaperExchange`（内存模拟） | 行情/下单/账户接口 + 纸面撮合 |
 | `data` | `SyntheticCandles` `Replayer` `make_candles` `candles_to_frame` `candles_from_frame` `interval_seconds` `periods_per_year` | 确定性合成行情与回放 |
+| `realdata` | `load_candles` `load_ohlcv_frame` `replayer_from_csv` `symbol_from_path` `estimate_periods_per_year` `describe_candles` | 本地真实历史 OHLCV CSV 的离线加载 → `Candle`/`Replayer` |
 | `strategy` | `Strategy` `Context` `MomentumStrategy` `GridStrategy` `DcaStrategy` | 策略基类、运行时上下文与示例策略 |
 | `engine` | `PaperTradingEngine` `PaperTradingResult` `performance_summary` `sharpe_ratio` `max_drawdown` `total_return` `cagr` | 纸面交易主循环与绩效 |
 | `risk` | `fixed_fractional_size` `volatility_target_size` `realized_volatility` `kelly_fraction` `check_exits` `stop_loss_triggered` `take_profit_triggered` `trailing_stop_triggered` `quote_to_quantity` `align_step` | 仓位管理与风控判定 |
@@ -217,9 +246,11 @@ make test          # 或 python -m pytest -q
 ## 项目结构
 
 ```
-kairos_crypto/      核心包（types / exchange / data / strategy / engine / risk）
-examples/demo.py    可直接运行的纸面交易演示
-tests/              pytest 测试（含离线约束与测试工具 helpers.py）
+kairos_crypto/           核心包（types / exchange / data / realdata / strategy / engine / risk）
+examples/demo.py         可直接运行的纸面交易演示（合成行情）
+examples/replay_real.py  真实历史 OHLCV 回放纸面交易演示（离线，写 research/real_replay/）
+tests/                   pytest 测试（含离线约束、真实样本回放与测试工具 helpers.py）
+research/real_replay/    回放研究产物（REPORT.md / metrics.json / equity.csv，入库）
 ```
 
 ## 许可

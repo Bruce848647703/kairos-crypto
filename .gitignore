@@ -7,3 +7,11 @@ build/
 dist/
 .ipynb_checkpoints/
 .DS_Store
+
+# 研究产物：research/ 下默认不入库，仅放开 real_replay 的 md/json/csv（回放演示报告）
+research/*
+!research/real_replay/
+research/real_replay/*
+!research/real_replay/*.md
+!research/real_replay/*.json
+!research/real_replay/*.csv

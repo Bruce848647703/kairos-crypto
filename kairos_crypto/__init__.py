@@ -6,6 +6,8 @@
 - :mod:`kairos_crypto.types`    基础数据类型（Candle / Ticker / Order / Trade / Balance …）
 - :mod:`kairos_crypto.exchange` 交易所抽象基类 ``Exchange`` + 纸面实现 ``PaperExchange``
 - :mod:`kairos_crypto.data`     确定性合成行情 ``SyntheticCandles`` 与回放器 ``Replayer``
+- :mod:`kairos_crypto.realdata` 本地真实历史 OHLCV CSV 的离线加载（``load_candles``），
+  用于「真实数据回放」驱动纸面交易（当前环境加密实时源不可达，见模块 docstring）
 - :mod:`kairos_crypto.strategy` 策略基类 ``Strategy`` 与示例（动量 / 网格 / 定投）
 - :mod:`kairos_crypto.engine`   ``PaperTradingEngine`` 与净值/绩效/会计核对
 - :mod:`kairos_crypto.risk`     仓位管理（固定比例、波动率目标）与止损止盈判定
@@ -43,6 +45,14 @@ from .engine import (
     total_return,
 )
 from .exchange import Exchange, PaperExchange
+from .realdata import (
+    describe_candles,
+    estimate_periods_per_year,
+    load_candles,
+    load_ohlcv_frame,
+    replayer_from_csv,
+    symbol_from_path,
+)
 from .risk import (
     EXIT_STOP_LOSS,
     EXIT_TAKE_PROFIT,
@@ -97,6 +107,9 @@ __all__ = [
     "SyntheticCandles", "Replayer", "make_candles", "candles_to_frame",
     "candles_from_frame", "symbols_of", "interval_seconds", "periods_per_year",
     "INTERVAL_SECONDS", "DEFAULT_START_TS",
+    # realdata
+    "load_candles", "load_ohlcv_frame", "replayer_from_csv", "symbol_from_path",
+    "estimate_periods_per_year", "describe_candles",
     # strategy
     "Strategy", "Context", "MomentumStrategy", "GridStrategy", "DcaStrategy",
     # engine

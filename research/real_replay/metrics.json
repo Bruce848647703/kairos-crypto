@@ -1,0 +1,167 @@
+{
+  "meta": {
+    "csv": "/home/zhuoming.wang/quant-hub/kairos/kairos-data/data/etf/sh518880.csv",
+    "symbol": "SH518880/CNY",
+    "quote": "CNY",
+    "bars": 3202,
+    "start": "2013-07-29",
+    "end": "2026-09-24",
+    "first_close": 0.992,
+    "last_close": 3.319,
+    "buy_hold_return": 2.345766129032258,
+    "initial_quote": 10000.0,
+    "fee_rate": 0.0005,
+    "periods_per_year": 243.156087408949,
+    "strategies": [
+      "momentum",
+      "grid",
+      "dca"
+    ],
+    "equity_rows": 240,
+    "generated_utc": "2026-09-30 01:17:05",
+    "generator": "examples/replay_real.py",
+    "disclaimer": "纯纸面交易/模拟撮合，无真实下单；加密实时源在当前环境不可达，故以真实 A 股/ETF 历史 OHLCV（后复权）回放演示引擎。结果不构成投资建议。",
+    "check_names": [
+      "net_pnl_eq_gross_minus_fees",
+      "fees_eq_sum_of_trades",
+      "final_equity_eq_cash_plus_holdings",
+      "equity_curve_positive_and_complete"
+    ]
+  },
+  "strategies": {
+    "momentum": {
+      "name": "momentum",
+      "final_equity": 22531.957901250462,
+      "total_fees": 672.0419972082161,
+      "net_pnl": 12531.957901250462,
+      "gross_pnl": 13203.999898458676,
+      "metrics": {
+        "periods": 3202.0,
+        "initial_equity": 10000.0,
+        "final_equity": 22531.957901250462,
+        "total_return": 1.2531957901250461,
+        "cagr": 0.06363135856969593,
+        "volatility": 0.12156596343683965,
+        "sharpe": 0.5685697809661108,
+        "sortino": 0.7979911969624254,
+        "max_drawdown": 0.32483127809662404,
+        "net_pnl": 12531.957901250462,
+        "gross_pnl": 13203.999898458676,
+        "total_fees": 672.0419972082161,
+        "realized_pnl": 14011.86461297207,
+        "unrealized_pnl": -807.8647145134021,
+        "trade_cash_flow": -9327.957979440294,
+        "trade_count": 103.0,
+        "order_count": 103.0,
+        "final_position": 6788.779113557988,
+        "final_holdings_value": 22531.95787789897,
+        "benchmark_return": 2.345766129032258,
+        "periods_per_year": 243.156087408949
+      },
+      "checks": {
+        "net_pnl_eq_gross_minus_fees": true,
+        "fees_eq_sum_of_trades": true,
+        "final_equity_eq_cash_plus_holdings": true,
+        "equity_curve_positive_and_complete": true
+      },
+      "accounting_ok": true,
+      "extras": {
+        "final_base_balance": 6788.779113557991,
+        "final_cash": 2.335149110876955e-05,
+        "open_orders": 0.0,
+        "risk_exits": 0.0,
+        "end_state": "long"
+      }
+    },
+    "grid": {
+      "name": "grid",
+      "final_equity": 11660.978828942802,
+      "total_fees": 70.98921825719998,
+      "net_pnl": 1660.9788289428016,
+      "gross_pnl": 1731.9680471999952,
+      "metrics": {
+        "periods": 3202.0,
+        "initial_equity": 10000.0,
+        "final_equity": 11660.978828942802,
+        "total_return": 0.16609788289428007,
+        "cagr": 0.011737336885544458,
+        "volatility": 0.040764503703100634,
+        "sharpe": 0.3064970133758095,
+        "sortino": 0.47654668450019777,
+        "max_drawdown": 0.1206590193765954,
+        "net_pnl": 1660.9788289428016,
+        "gross_pnl": 1731.9680471999952,
+        "total_fees": 70.98921825719998,
+        "realized_pnl": 1731.9680471999884,
+        "unrealized_pnl": 0.0,
+        "trade_cash_flow": 1731.9680471999968,
+        "trade_count": 139.0,
+        "order_count": 147.0,
+        "final_position": 0.0,
+        "final_holdings_value": -1.5093064575921744e-12,
+        "benchmark_return": 2.345766129032258,
+        "periods_per_year": 243.156087408949
+      },
+      "checks": {
+        "net_pnl_eq_gross_minus_fees": true,
+        "fees_eq_sum_of_trades": true,
+        "final_equity_eq_cash_plus_holdings": true,
+        "equity_curve_positive_and_complete": true
+      },
+      "accounting_ok": true,
+      "extras": {
+        "final_base_balance": -4.547473508864641e-13,
+        "final_cash": 11660.978828942803,
+        "open_orders": 8.0,
+        "grid_buy_fills": 67.0,
+        "grid_sell_fills": 71.0,
+        "grid_cycles": 71.0
+      }
+    },
+    "dca": {
+      "name": "dca",
+      "final_equity": 24997.585161822513,
+      "total_fees": 4.747511244377819,
+      "net_pnl": 14997.585161822513,
+      "gross_pnl": 15002.332673066925,
+      "metrics": {
+        "periods": 3202.0,
+        "initial_equity": 10000.0,
+        "final_equity": 24997.585161822513,
+        "total_return": 1.4997585161822515,
+        "cagr": 0.0720521376470884,
+        "volatility": 0.10718818520598823,
+        "sharpe": 0.7030074776358137,
+        "sortino": 0.979289223444287,
+        "max_drawdown": 0.29768828854166396,
+        "net_pnl": 14997.585161822513,
+        "gross_pnl": 15002.332673066925,
+        "total_fees": 4.747511244377819,
+        "realized_pnl": 0.0,
+        "unrealized_pnl": 15002.332673066916,
+        "trade_cash_flow": -9495.022488755607,
+        "trade_count": 153.0,
+        "order_count": 153.0,
+        "final_position": 7380.944610371356,
+        "final_holdings_value": 24497.355161822532,
+        "benchmark_return": 2.345766129032258,
+        "periods_per_year": 243.156087408949
+      },
+      "checks": {
+        "net_pnl_eq_gross_minus_fees": true,
+        "fees_eq_sum_of_trades": true,
+        "final_equity_eq_cash_plus_holdings": true,
+        "equity_curve_positive_and_complete": true
+      },
+      "accounting_ok": true,
+      "extras": {
+        "final_base_balance": 7380.944610371356,
+        "final_cash": 500.2299999999824,
+        "open_orders": 0.0,
+        "dca_buys": 153.0,
+        "dca_invested": 9499.770000000017,
+        "dca_average_cost": 1.2870669679123978
+      }
+    }
+  }
+}
