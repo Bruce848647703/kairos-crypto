@@ -1,5 +1,7 @@
 # Kairos Crypto
 
+[![CI](https://github.com/Bruce848647703/kairos-crypto/actions/workflows/ci.yml/badge.svg)](https://github.com/Bruce848647703/kairos-crypto/actions/workflows/ci.yml)
+
 > Kairos 量化系列的加密货币模块 —— 一个**自研、轻量、纯离线**的加密量化库：
 > **交易所无关抽象（Exchange）+ 纸面交易撮合（PaperExchange）**。
 
