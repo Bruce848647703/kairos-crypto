@@ -47,6 +47,18 @@ def join_symbol(base: str, quote: str, separator: str = SYMBOL_SEPARATOR) -> str
     return f"{base.strip().upper()}{separator}{quote.strip().upper()}"
 
 
+def epoch_ms(index: "pd.DatetimeIndex") -> list:
+    """把 ``DatetimeIndex`` 转成 UTC 毫秒时间戳列表（跨 pandas 版本安全）。
+
+    不能用 ``index.asi8 // 1_000_000``：``asi8`` 的单位**跟随索引精度**——
+    pandas 1.x 恒为纳秒，pandas 3.x 对纯日期列默认用秒（``s``），此时除 ``1e6``
+    会得到相差 1000 倍的结果。统一先归一到毫秒精度再取整数。
+    """
+    if hasattr(index, "as_unit"):                        # pandas >= 2.0
+        return index.as_unit("ms").asi8.tolist()
+    return (index.asi8 // 1_000_000).tolist()            # pandas 1.x：固定纳秒
+
+
 class Side(Enum):
     """买卖方向。值为小写字符串，便于与外部接口/日志对齐。"""
 

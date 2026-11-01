@@ -16,7 +16,7 @@ from typing import Dict, Iterable, Iterator, List, Optional, Sequence, Tuple, Un
 import numpy as np
 import pandas as pd
 
-from .types import Candle
+from .types import Candle, epoch_ms
 
 #: 常见 K 线周期 -> 秒数（加密行业惯例字符串）
 INTERVAL_SECONDS: Dict[str, int] = {
@@ -85,7 +85,7 @@ def candles_from_frame(frame: pd.DataFrame, symbol: str,
     if ts_column is not None and ts_column in df.columns:
         stamps = [int(v) for v in df[ts_column].tolist()]
     elif isinstance(df.index, pd.DatetimeIndex):
-        stamps = [int(v) // 1_000_000 for v in df.index.asi8.tolist()]
+        stamps = [int(v) for v in epoch_ms(df.index)]
     else:
         stamps = [DEFAULT_START_TS + i * 3_600_000 for i in range(n)]
     volumes = df["volume"].tolist() if "volume" in df.columns else [0.0] * n

@@ -34,7 +34,7 @@ import numpy as np
 import pandas as pd
 
 from .data import Replayer
-from .types import Candle, parse_symbol
+from .types import Candle, epoch_ms, parse_symbol
 
 #: OHLCV CSV 必须具备的四价列（小写匹配）
 REQUIRED_COLUMNS = ("open", "high", "low", "close")
@@ -160,7 +160,7 @@ def load_candles(csv_path: str, symbol: Optional[str] = None, quote: str = "CNY"
         sym = str(symbol).strip().upper()
     parse_symbol(sym)                              # 提前校验 BASE/QUOTE 格式
 
-    stamps = (frame.index.asi8 // 1_000_000).tolist()
+    stamps = epoch_ms(frame.index)
     opens = frame["open"].to_numpy(dtype="float64").tolist()
     highs = frame["high"].to_numpy(dtype="float64").tolist()
     lows = frame["low"].to_numpy(dtype="float64").tolist()
