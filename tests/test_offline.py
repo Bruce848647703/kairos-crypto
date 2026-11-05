@@ -154,6 +154,13 @@ def test_full_session_without_any_socket(monkeypatch):
 
 
 def test_version_and_exports():
-    assert kairos_crypto.__version__ == "0.1.0"
+    # 版本号以 pyproject.toml 为唯一事实来源，避免发版时测试硬编码过期
+    import pathlib
+    import re
+
+    pyproject = pathlib.Path(__file__).resolve().parents[1] / "pyproject.toml"
+    expected = re.search(r'(?m)^version = "([^"]+)"$', pyproject.read_text(encoding="utf-8"))
+    assert expected is not None
+    assert kairos_crypto.__version__ == expected.group(1)
     for name in kairos_crypto.__all__:
         assert hasattr(kairos_crypto, name), name
